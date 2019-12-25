@@ -1,6 +1,8 @@
-var express = require("express");
-app = express();
+var express         = require("express");
+app                 = express();
+var bodyParser      = require("body-parser");
 
+app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
 app.get("/forums", function(req, res){
@@ -15,14 +17,25 @@ app.get("/forums", function(req, res){
     res.render("forums", {forums:forums});
 });
 
-app.get("/", function(req, res){
-    res.render("landing");
-});
+app.get("/", (req, res)=>
+    res.render("landing")
+);
 
+//route for submission of form 
+// app.post("/forums", (req, res)=>
+//     //get data from form taht will  be added to forums array
+
+//     //redirect back to forums page
+// );
+
+//shows form that submits the data to the forums
+app.get("/forums/new", (req, res)=>
+    res.render("new.ejs")
+);
 
 /*app.listen(process.env.PORT, process.env.IP, function(){
     console.log("The 9jaGist Server has started!");
 });*/ 
-app.listen(4000, process.env.IP, function(){
-    console.log("The 9jaGist Server has started!");
-}); 
+app.listen(4000, process.env.IP, ()=>
+    console.log("The 9jaGist Server has started!")
+); 
