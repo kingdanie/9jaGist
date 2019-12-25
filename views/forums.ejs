@@ -1,0 +1,14 @@
+<%- include('partials/header'); -%>
+
+
+<h1>9jaGist: A Home For Everyone</h1>
+
+<% forums.forEach(function(forum){ %>
+    <div>
+        <h4><%= forum.name %></h4>
+        <img src=<%= forum.image %>">
+    </div>
+<% }); %>
+
+<%- include('partials/footer'); -%>
+
