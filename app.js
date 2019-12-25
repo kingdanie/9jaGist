@@ -21,7 +21,7 @@ app.get("/", (req, res)=>
     res.render("landing")
 );
 
-//route for submission of form 
+//route for creating new topic 
 // app.post("/forums", (req, res)=>
 //     //get data from form taht will  be added to forums array
 
