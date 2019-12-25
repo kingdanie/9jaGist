@@ -1,14 +1,38 @@
 <%- include('partials/header'); -%>
 
+<div class="container">
+    <header class="jumbotron">
+        <div class="container">
+            <h1>Welcome To 9jaGist Forums</h1>
+            <p>Your Number 1 Authentuc Gist and Info Hub.</p>
+            <p class="btn btn-primary btn-large href="/forums/new">Add New Topic</p>
+        </div>
+        </header>
 
-<h1>9jaGist: A Home For Everyone</h1>
+    <h1>9jaGist: A Home For Everyone</h1>
 
-<% forums.forEach(function(forum){ %>
-    <div>
-        <h4><%= forum.name %></h4>
-        <img src=<%= forum.image %>">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3>Trending Topics</h3>
+        </div>
     </div>
-<% }); %>
+
+    <div class="row text-center" style="display: flex; flex-wrap: wrap;">
+        <% forums.forEach(function(forum){ %>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                    <img src=<%= forum.image %>">
+                    <div class="caption">
+                        <h4><%= forum.name %></h4>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+
+    </div>
+
+
+</div>
 
 <%- include('partials/footer'); -%>
 
