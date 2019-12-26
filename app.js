@@ -1,9 +1,40 @@
-var express         = require("express");
-app                 = express();
-var bodyParser      = require("body-parser");
+var express         = require("express"),
+    app                 = express(),
+    bodyParser      = require("body-parser"),
+    mongoose        = require("mongoose");
+
+
+//create schema for db using mongoose
+mongoose.connect("mongodb://localhost:27017/forums", {useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
+
+
+//schema setup
+var forumSchema = new mongoose.Schema({
+    email: String,
+    title: String,
+    message: String,
+    name: String,
+    image: String
+});
+
+var Forum = mongoose.model("Forum", forumSchema);
+
+// Forum.create(
+//     {
+//         name: "steven job",
+//         title: "Second post",
+//         message: "let me be the second to comment in this platform",
+//         email: "steve@goc.com"
+//     }, function(err, forum){
+//     if(err){ console.log(err);
+//         } else{
+//             console.log("newly created: ");
+//             console.log(forum);
+//         }
+//     })
 
 var forums = [
     {name: "lifestyle", image: "https://www.google.com/imgres?imgurl=https%3A%2F%2Fsites.google.com%2Fsite%2Fproveyoureself%2Fhome%2Fslide1.jpg%3Fattredirects%3D0&imgrefurl=https%3A%2F%2Fsites.google.com%2Fsite%2Fproveyoureself%2F&docid=JRoRxtFldfiRQM&tbnid=LsBI1EjOpNSLDM%3A&vet=10ahUKEwi-_6bay87mAhVSUMAKHVKXBBAQMwigASgZMBk..i&w=623&h=416&bih=657&biw=1366&q=lifestyle&ved=0ahUKEwi-_6bay87mAhVSUMAKHVKXBBAQMwigASgZMBk&iact=mrc&uact=8"},
@@ -19,7 +50,16 @@ app.get("/", (req, res)=>
 );
 
 app.get("/forums", function(req, res){
-    res.render("forums", {forums:forums});
+    //get all forums from db
+    Forum.find({}, function(err, allForums){
+        if(err){
+            console.log(err);
+        } else{
+            res.render("forums", {forums:allForums});
+        }
+    });
+
+    // res.render("forums", {forums:forums});
 });
 
 
@@ -30,11 +70,21 @@ app.post("/forums", function(req, res){
     var email= req.body.email;
     var title = req.body.title;
     var message = req.body.message;
+    console.log(email, title, message);
     var newForum = {email: email, title: title, message: message}
-    forums.push(newForum);
+    //create a new topic and save to db
+    Forum.create(newForum, function(err, newlyCreated){
+        if(err){
+            console.log(err);
+        } else {
+            //redirect back to forums page
+            console.log(newlyCreated);
+            res.redirect("/forums");
+        }
+    });
+    // forums.push(newForum);
 
-    //redirect back to forums page
-    res.redirect("/forums");
+    
 });
 
 //shows form that submits the data to the forums
