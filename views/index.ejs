@@ -6,7 +6,7 @@
     <header class="jumbotron">
         <div class="container">
             <h1>Welcome To 9jaGist Forums</h1>
-            <p>Your Number 1 Authentuc Gist and Info Hub.</p>
+            <p>Your Number 1 Authentic Info and Gist Hub.</p>
             <a  href="forums/new" class="btn btn-primary btn-large">Add New Topic</a>
         </div>
         </header>
@@ -25,9 +25,11 @@
                 <div class="thumbnail">
                     <img src="<%= forum.image %>">
                     <div class="caption">
-                        <h4><%= forum.title %></h4>
-                        <p> <%= forum.message %></p>
-                        <small> <%= forum.email %> </small>
+                        <h2><%= forum.title %></h2>
+                        <small> author <%= forum.email %> </small>
+                        <p>
+                            <a href="/forums/<%= forum._id %>" class="btn btn-primary">Read More</a>
+                        </p>
                     </div>
                 </div>
             </div>

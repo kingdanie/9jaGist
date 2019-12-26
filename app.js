@@ -55,7 +55,7 @@ app.get("/forums", function(req, res){
         if(err){
             console.log(err);
         } else{
-            res.render("forums", {forums:allForums});
+            res.render("index", {forums:allForums});
         }
     });
 
@@ -91,6 +91,19 @@ app.post("/forums", function(req, res){
 app.get("/forums/new", (req, res)=>
     res.render("new.ejs")
 );
+
+//show more info about a forum
+app.get("/forums/:id", function(req, res){
+    //find the forum with the provided id
+    Forum.findById(req.params.id, function(err, foundForum){
+        if(err){
+            console.log(err);
+        } else {
+            //render template with that forum
+            res.render("show", {forum: foundForum});
+        }
+    });
+});
 
 /*app.listen(process.env.PORT, process.env.IP, function(){
     console.log("The 9jaGist Server has started!");
