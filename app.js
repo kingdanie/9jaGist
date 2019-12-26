@@ -34,7 +34,7 @@ app.post("/forums", function(req, res){
     forums.push(newForum);
 
     //redirect back to forums page
-    res.render("forums");
+    res.redirect("/forums");
 });
 
 //shows form that submits the data to the forums
