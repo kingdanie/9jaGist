@@ -1,11 +1,13 @@
 <%- include('partials/header'); -%>
 
+
+
 <div class="container">
     <header class="jumbotron">
         <div class="container">
             <h1>Welcome To 9jaGist Forums</h1>
             <p>Your Number 1 Authentuc Gist and Info Hub.</p>
-            <p class="btn btn-primary btn-large href="/forums/new">Add New Topic</p>
+            <a  href="forums/new" class="btn btn-primary btn-large">Add New Topic</a>
         </div>
         </header>
 
@@ -21,9 +23,12 @@
         <% forums.forEach(function(forum){ %>
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
-                    <img src=<%= forum.image %>">
+                    <img src="<%= forum.image %>">
                     <div class="caption">
                         <h4><%= forum.name %></h4>
+                        <h5> <%= forum.title %></h5>
+                        <p> <%= forum.message %></p>
+                        <small> <%= forum.email %> </small>
                     </div>
                 </div>
             </div>
