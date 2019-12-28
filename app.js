@@ -1,7 +1,10 @@
 var express         = require("express"),
     app                 = express(),
     bodyParser      = require("body-parser"),
-    mongoose        = require("mongoose");
+    mongoose        = require("mongoose"),
+    Forum           = require("./models/forum"),
+    User           = require("./models/user"),
+    Comments           = require("./models/comments");
 
 
 //create schema for db using mongoose
@@ -11,16 +14,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
 
-//schema setup
-var forumSchema = new mongoose.Schema({
-    email: String,
-    title: String,
-    message: String,
-    name: String,
-    image: String
-});
-
-var Forum = mongoose.model("Forum", forumSchema);
 
 // Forum.create(
 //     {
@@ -55,7 +48,7 @@ app.get("/forums", function(req, res){
         if(err){
             console.log(err);
         } else{
-            res.render("index", {forums:allForums});
+            res.render("forums/index", {forums:allForums});
         }
     });
 
@@ -89,7 +82,7 @@ app.post("/forums", function(req, res){
 
 //shows form that submits the data to the forums
 app.get("/forums/new", (req, res)=>
-    res.render("new.ejs")
+    res.render("forums/new")
 );
 
 //show more info about a forum
@@ -100,10 +93,27 @@ app.get("/forums/:id", function(req, res){
             console.log(err);
         } else {
             //render template with that forum
-            res.render("show", {forum: foundForum});
+            res.render("forums/show", {forum: foundForum});
         }
     });
 });
+
+
+// =========================================
+// COMMENTS ROUTES
+// =========================================
+app.get("/forums/:id/comments/new", function(req, res){
+    //find forum by id
+    Forum.findById(req.params.id0.populate("comments").exec(function(err, forum){
+        if(err){
+            console.log(err);
+        } else {
+            //render template with that forum
+            res.render("comments/new", {forum: forum});
+        }
+    }))
+})
+
 
 /*app.listen(process.env.PORT, process.env.IP, function(){
     console.log("The 9jaGist Server has started!");
