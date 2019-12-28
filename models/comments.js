@@ -3,7 +3,7 @@ var mongoose        = require("mongoose");
 //schema setup
 var commentSchema = new mongoose.Schema({
     username: String,
-    message: String,
+    text: String,
 });
 
-module.exports = mongoose.model("Comments", commentSchema);
+module.exports = mongoose.model("Comment", commentSchema);

@@ -2,13 +2,13 @@ var express         = require("express"),
     app                 = express(),
     bodyParser      = require("body-parser"),
     mongoose        = require("mongoose"),
+    Comment           = require("./models/comments"),
     Forum           = require("./models/forum"),
-    User           = require("./models/user"),
-    Comments           = require("./models/comments");
+    User           = require("./models/user");
 
 
 //create schema for db using mongoose
-mongoose.connect("mongodb://localhost:27017/forums", {useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb://localhost:27017/9jagist", {useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -103,17 +103,39 @@ app.get("/forums/:id", function(req, res){
 // COMMENTS ROUTES
 // =========================================
 app.get("/forums/:id/comments/new", function(req, res){
-    //find forum by id
-    Forum.findById(req.params.id0.populate("comments").exec(function(err, forum){
+    //find forum by 
+        // Forum.findById(req.params.id).populate("comments").exec(function(err, forum){
+    Forum.findById(req.params.id, function(err, forum){
         if(err){
             console.log(err);
+            res.redirect('/forums');
         } else {
             //render template with that forum
             res.render("comments/new", {forum: forum});
         }
-    }))
-})
+    })
+});
 
+app.post("/forums/:id/comments", function(req, res){
+    //lookup forum using Id
+    Forum.findById(req.params.id, function(err, forum){
+        if(err){
+            console.log(err);
+        } else {
+            Comment.create(req.body.comment, function(err, comment){
+                if(err){
+                    console.log(err);
+
+                } else {
+                    // console.log(comment);
+                    forum.comments.push(comment);
+                    forum.save();
+                    res.redirect('/forums/' + forum._id);
+                }
+            });
+        }
+    });
+});
 
 /*app.listen(process.env.PORT, process.env.IP, function(){
     console.log("The 9jaGist Server has started!");

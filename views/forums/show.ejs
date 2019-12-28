@@ -4,6 +4,15 @@
 
 
     <p><%=forum.message%></p>
+
+    <div>
+        <% forum.comments.forEach(function(comment){ %>
+            <p>
+                <strong><%= comment.username %></strong> - <%= comment.text %>
+            </p>
+            <% }) %>
+    </div>
+    <a class="btn btn-success" href="/forums/<%= forum._id %>/comments/new">Add New Comment</a>
     </div>
 
 <%- include('../partials/footer'); -%>
