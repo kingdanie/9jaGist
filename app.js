@@ -12,7 +12,7 @@ mongoose.connect("mongodb://localhost:27017/9jagist", {useNewUrlParser: true, us
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
-
+app.use(express.static(__dirname + "/public"));
 
 
 // Forum.create(

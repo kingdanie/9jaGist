@@ -1,18 +1,26 @@
 <%- include('../partials/header'); -%>
     <div class="container">
-    <h1><%=forum.title%></h1>
-
-
-    <p><%=forum.message%></p>
-
-    <div>
+        <div class="row thumbnail">
+            <div class="bg-info"><h3><%=forum.title%></h3> <span>Arthor: <small><%= forum.email %></small</span> <hr></div>
+                
+            <div>
+                <p><%=forum.message%></p>
+            </div>
+        </div>
+    
+    <div class="row">
         <% forum.comments.forEach(function(comment){ %>
-            <p>
-                <strong><%= comment.username %></strong> - <%= comment.text %>
-            </p>
-            <% }) %>
+            <div class="col-md-12 thumbnail">
+                    <strong><%= comment.username %></strong> <span class="pull-right">2 days ago</span> <br /> <hr>
+                <p>
+                    <%= comment.text %>
+                </p>
+            </div>
+                <% }) %>
     </div>
-    <a class="btn btn-success" href="/forums/<%= forum._id %>/comments/new">Add New Comment</a>
+    <div class="row text-right">
+        <a class="btn btn-success" href="/forums/<%= forum._id %>/comments/new">Add New Comment</a>
+    </div>
     </div>
 
 <%- include('../partials/footer'); -%>
