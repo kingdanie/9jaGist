@@ -2,13 +2,28 @@ var express         = require("express"),
     app                 = express(),
     bodyParser      = require("body-parser"),
     mongoose        = require("mongoose"),
-    Comment           = require("./models/comments"),
     Forum           = require("./models/forum"),
+    Comment           = require("./models/comments"),
+    passport        = require("passport"),
+    LocalStrategy   = require("passport-local"),
+
     User           = require("./models/user");
 
 
 //create schema for db using mongoose
 mongoose.connect("mongodb://localhost:27017/9jagist", {useNewUrlParser: true, useUnifiedTopology: true });
+
+//PASSPORT CONFIG
+app.use(require("express-session")({
+    secret: "9jagist is the best blog",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -136,6 +151,28 @@ app.post("/forums/:id/comments", function(req, res){
         }
     });
 });
+
+//AUTH ROUTES
+app.get("/signup", function(req, res){
+    res.render("signup");
+})
+app.post("/signup", function(req, res){
+    var newUser = new User({email: req.body.email, username: req.body.username});
+    User.register(newUser, req.body.password, function(err, user){
+        if(err){
+            console.log(err);
+            return res.render("signup");
+        }
+        passport.authenticate("local")(req, res, function(){
+            res.redirect("/forums");
+        });
+    })
+
+    
+    
+    
+})
+
 
 /*app.listen(process.env.PORT, process.env.IP, function(){
     console.log("The 9jaGist Server has started!");
