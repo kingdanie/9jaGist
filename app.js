@@ -167,13 +167,26 @@ app.post("/signup", function(req, res){
             res.redirect("/forums");
         });
     })
-
-    
-    
-    
+ 
 })
 
 
+//show log in form
+app.get("/login", function(req, res){
+    res.render("login");
+});
+
+app.post("/login", passport.authenticate("local", 
+    {
+        successRedirect: "/forums",
+        failureRedirect: "/login"
+    }), function(req, res){
+});
+
+
+
+    
+   
 /*app.listen(process.env.PORT, process.env.IP, function(){
     console.log("The 9jaGist Server has started!");
 });*/ 
