@@ -117,7 +117,7 @@ app.get("/forums/:id", function(req, res){
 // =========================================
 // COMMENTS ROUTES
 // =========================================
-app.get("/forums/:id/comments/new", function(req, res){
+app.get("/forums/:id/comments/new", isLoggedIn, function(req, res){
     //find forum by 
         // Forum.findById(req.params.id).populate("comments").exec(function(err, forum){
     Forum.findById(req.params.id, function(err, forum){
@@ -131,7 +131,7 @@ app.get("/forums/:id/comments/new", function(req, res){
     })
 });
 
-app.post("/forums/:id/comments", function(req, res){
+app.post("/forums/:id/comments", isLoggedIn, function(req, res){
     //lookup forum using Id
     Forum.findById(req.params.id, function(err, forum){
         if(err){
@@ -185,11 +185,16 @@ app.post("/login", passport.authenticate("local",
 
 //logout route
 app.get("/logout", function(req, res){
-    res.logout();
+    req.logout();
     res.redirect("/forums");
 });
 
-    
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}    
    
 /*app.listen(process.env.PORT, process.env.IP, function(){
     console.log("The 9jaGist Server has started!");
