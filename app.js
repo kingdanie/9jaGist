@@ -175,7 +175,7 @@ app.post("/signup", function(req, res){
 app.get("/login", function(req, res){
     res.render("login");
 });
-
+//login logic
 app.post("/login", passport.authenticate("local", 
     {
         successRedirect: "/forums",
@@ -183,7 +183,11 @@ app.post("/login", passport.authenticate("local",
     }), function(req, res){
 });
 
-
+//logout route
+app.get("/logout", function(req, res){
+    res.logout();
+    res.redirect("/forums");
+});
 
     
    
