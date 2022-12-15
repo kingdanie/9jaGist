@@ -1,2 +1,2 @@
 # 9jaGist
-a forum built with php, ejs
+A forum for Nigerians built using Express, EJS, Nodedb.
